@@ -16,7 +16,8 @@
   },
   "homepage": "https://github.com/jBulger93/todo-list#readme",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "express-handlebars": "^3.0.0"
   },
   "devDependencies": {},
   "description": ""
