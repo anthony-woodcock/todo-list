@@ -1,26 +1,53 @@
 var bodyParser = require('body-parser')
-var toDos = require('../models/ToDos.js')
+var ToDo = require('../models/ToDo.js')
 var urlencodedParser = bodyParser.urlencoded({ extended:false })
 
-function toDoController (app) {
-  app.get('/', function (req, res){
+function renderToDos (res) {
+    ToDo.find({}, function (error, results) {
+    if (error) {
+      throw new Error(error)
+    }
+  
     res.render('home', {
-      toDos: toDos.getItems()
+      toDos: results
     })
+  
+    
+    
+  })
+}
+
+
+function toDoController (app) {
+  
+  app.get('/', function (req, res){
+      renderToDos(res)
   })
    app.post('/', urlencodedParser, function (req, res){
-    toDos.addItem(req.body.item)
-
+      ToDo({
+        task: req.body.item
+      }).save(function (error) {
+        if (error) {
+          throw new Error(error)
+      }
+      renderToDos(res)
+    })
+/*
     res.render('home', {
       toDos: toDos.getItems()
     })
+*/
+
+
    })
     app.delete('/', urlencodedParser, function (req, res) {
-    toDos.removeItem(req.body.id)
+      ToDo.find({ _id: req.body.id }).remove(function (error) {
+        if (error) {
+         throw new Error(error)
+          }
 
-    res.render('home', {
-      toDos: toDos.getItems()
-    })
+        renderToDos(res)
+        })
   })
 }
 module.exports = toDoController 
