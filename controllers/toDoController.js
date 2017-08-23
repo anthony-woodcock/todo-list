@@ -11,9 +11,7 @@ function renderToDos (res) {
     res.render('home', {
       toDos: results
     })
-  
-    
-    
+   
   })
 }
 
@@ -32,13 +30,7 @@ function toDoController (app) {
       }
       renderToDos(res)
     })
-/*
-    res.render('home', {
-      toDos: toDos.getItems()
-    })
-*/
-
-
+    
    })
     app.delete('/', urlencodedParser, function (req, res) {
       ToDo.find({ _id: req.body.id }).remove(function (error) {
